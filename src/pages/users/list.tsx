@@ -3,7 +3,6 @@ import {
   useDataGrid,
   EditButton,
   ShowButton,
-  DeleteButton,
   List,
   DateField,
   EmailField,
@@ -78,7 +77,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "numReviews",
         flex: 1,
-        headerName: "Rewiews",
+        headerName: "Reviews",
         type: "number",
         minWidth: 100,
       },
@@ -105,13 +104,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Actions",
         sortable: false,
         renderCell: function render({ row }) {
-          return (
-            <>
-              <EditButton hideText recordItemId={row.id} />
-              <ShowButton hideText recordItemId={row.id} />
-              <DeleteButton hideText recordItemId={row.id} />
-            </>
-          );
+          return <EditButton hideText recordItemId={row._id} />;
         },
         align: "center",
         headerAlign: "center",

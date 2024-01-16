@@ -52,9 +52,8 @@ function App() {
                 name: "users",
                 list: "/users",
                 edit: "/users/edit/:id",
-                show: "/users/show/:id",
                 meta: {
-                  canDelete: true,
+                  canDelete: false,
                 },
               },
               {
@@ -111,7 +110,6 @@ function App() {
                 <Route path="/users">
                   <Route index element={<UserList />} />
                   <Route path="edit/:id" element={<UserEdit />} />
-                  <Route path="show/:id" element={<UserShow />} />
                 </Route>
                 <Route path="/categories">
                   <Route index element={<CategoryList />} />
