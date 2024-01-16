@@ -1,12 +1,13 @@
-import { Authenticated, GitHubBanner, Refine } from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
-import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
   ErrorComponent,
   notificationProvider,
   RefineSnackbarProvider,
   ThemedLayoutV2,
+  ThemedSiderV2,
+  TextFieldComponent,
 } from "@refinedev/mui";
 
 import CssBaseline from "@mui/material/CssBaseline";
@@ -41,106 +42,115 @@ import { Register } from "./pages/register";
 function App() {
   return (
     <BrowserRouter>
-      <GitHubBanner />
-      <RefineKbarProvider>
-        <ColorModeContextProvider>
-          <CssBaseline />
-          <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
-          <RefineSnackbarProvider>
-            <DevtoolsProvider>
-              <Refine
-                dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-                notificationProvider={notificationProvider}
-                routerProvider={routerBindings}
-                authProvider={authProvider}
-                resources={[
-                  {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+      <ColorModeContextProvider>
+        <CssBaseline />
+        <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
+        <RefineSnackbarProvider>
+          <DevtoolsProvider>
+            <Refine
+              dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+              notificationProvider={notificationProvider}
+              routerProvider={routerBindings}
+              authProvider={authProvider}
+              resources={[
+                {
+                  name: "blog_posts",
+                  list: "/blog-posts",
+                  create: "/blog-posts/create",
+                  edit: "/blog-posts/edit/:id",
+                  show: "/blog-posts/show/:id",
+                  meta: {
+                    canDelete: true,
                   },
-                  {
-                    name: "categories",
-                    list: "/categories",
-                    create: "/categories/create",
-                    edit: "/categories/edit/:id",
-                    show: "/categories/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+                },
+                {
+                  name: "categories",
+                  list: "/categories",
+                  create: "/categories/create",
+                  edit: "/categories/edit/:id",
+                  show: "/categories/show/:id",
+                  meta: {
+                    canDelete: true,
                   },
-                ]}
-                options={{
-                  syncWithLocation: true,
-                  warnWhenUnsavedChanges: true,
-                  useNewQueryKeys: true,
-                  projectId: "W45kuM-bkw7bm-6o3KAQ",
-                }}
-              >
-                <Routes>
-                  <Route
-                    element={
-                      <Authenticated
-                        key="authenticated-inner"
-                        fallback={<CatchAllNavigate to="/login" />}
+                },
+              ]}
+              options={{
+                syncWithLocation: true,
+                warnWhenUnsavedChanges: true,
+                useNewQueryKeys: true,
+                projectId: "W45kuM-bkw7bm-6o3KAQ",
+              }}
+            >
+              <Routes>
+                <Route
+                  element={
+                    <Authenticated
+                      key="authenticated-inner"
+                      fallback={<CatchAllNavigate to="/login" />}
+                    >
+                      <ThemedLayoutV2
+                        Sider={() => (
+                          <ThemedSiderV2
+                            Title={({ collapsed }) =>
+                              collapsed ? (
+                                <></>
+                              ) : (
+                                <TextFieldComponent
+                                  fontSize={16}
+                                  value="Inksvilla Admin Panel"
+                                />
+                              )
+                            }
+                          />
+                        )}
+                        Header={() => <Header sticky />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
-                          <Outlet />
-                        </ThemedLayoutV2>
-                      </Authenticated>
-                    }
-                  >
-                    <Route
-                      index
-                      element={<NavigateToResource resource="blog_posts" />}
-                    />
-                    <Route path="/blog-posts">
-                      <Route index element={<BlogPostList />} />
-                      <Route path="create" element={<BlogPostCreate />} />
-                      <Route path="edit/:id" element={<BlogPostEdit />} />
-                      <Route path="show/:id" element={<BlogPostShow />} />
-                    </Route>
-                    <Route path="/categories">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
-                    </Route>
-                    <Route path="*" element={<ErrorComponent />} />
-                  </Route>
+                        <Outlet />
+                      </ThemedLayoutV2>
+                    </Authenticated>
+                  }
+                >
                   <Route
-                    element={
-                      <Authenticated
-                        key="authenticated-outer"
-                        fallback={<Outlet />}
-                      >
-                        <NavigateToResource />
-                      </Authenticated>
-                    }
-                  >
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route
-                      path="/forgot-password"
-                      element={<ForgotPassword />}
-                    />
+                    index
+                    element={<NavigateToResource resource="blog_posts" />}
+                  />
+                  <Route path="/blog-posts">
+                    <Route index element={<BlogPostList />} />
+                    <Route path="create" element={<BlogPostCreate />} />
+                    <Route path="edit/:id" element={<BlogPostEdit />} />
+                    <Route path="show/:id" element={<BlogPostShow />} />
                   </Route>
-                </Routes>
+                  <Route path="/categories">
+                    <Route index element={<CategoryList />} />
+                    <Route path="create" element={<CategoryCreate />} />
+                    <Route path="edit/:id" element={<CategoryEdit />} />
+                    <Route path="show/:id" element={<CategoryShow />} />
+                  </Route>
+                  <Route path="*" element={<ErrorComponent />} />
+                </Route>
+                <Route
+                  element={
+                    <Authenticated
+                      key="authenticated-outer"
+                      fallback={<Outlet />}
+                    >
+                      <NavigateToResource />
+                    </Authenticated>
+                  }
+                >
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/forgot-password" element={<ForgotPassword />} />
+                </Route>
+              </Routes>
 
-                <RefineKbar />
-                <UnsavedChangesNotifier />
-                <DocumentTitleHandler />
-              </Refine>
-              <DevtoolsPanel />
-            </DevtoolsProvider>
-          </RefineSnackbarProvider>
-        </ColorModeContextProvider>
-      </RefineKbarProvider>
+              <UnsavedChangesNotifier />
+              <DocumentTitleHandler />
+            </Refine>
+            <DevtoolsPanel />
+          </DevtoolsProvider>
+        </RefineSnackbarProvider>
+      </ColorModeContextProvider>
     </BrowserRouter>
   );
 }
