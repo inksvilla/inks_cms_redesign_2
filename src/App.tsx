@@ -17,19 +17,12 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
-import axiosInstance from "./utils/axios";
 
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
+import { UserEdit, UserList, UserShow } from "./pages/users";
 import {
   CategoryCreate,
   CategoryEdit,
@@ -40,6 +33,7 @@ import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { API_URL } from "./constants";
+import { dataProvider } from "./rest-data-provider";
 
 function App() {
   return (
@@ -49,17 +43,16 @@ function App() {
         <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
         <RefineSnackbarProvider>
           <Refine
-            dataProvider={dataProvider(API_URL, axiosInstance)}
+            dataProvider={dataProvider(API_URL)}
             notificationProvider={notificationProvider}
             routerProvider={routerBindings}
             authProvider={authProvider}
             resources={[
               {
                 name: "users",
-                list: "/blog-posts",
-                create: "/blog-posts/create",
-                edit: "/blog-posts/edit/:id",
-                show: "/blog-posts/show/:id",
+                list: "/users",
+                edit: "/users/edit/:id",
+                show: "/users/show/:id",
                 meta: {
                   canDelete: true,
                 },
@@ -115,11 +108,10 @@ function App() {
                   index
                   element={<NavigateToResource resource="blog_posts" />}
                 />
-                <Route path="/blog-posts">
-                  <Route index element={<BlogPostList />} />
-                  <Route path="create" element={<BlogPostCreate />} />
-                  <Route path="edit/:id" element={<BlogPostEdit />} />
-                  <Route path="show/:id" element={<BlogPostShow />} />
+                <Route path="/users">
+                  <Route index element={<UserList />} />
+                  <Route path="edit/:id" element={<UserEdit />} />
+                  <Route path="show/:id" element={<UserShow />} />
                 </Route>
                 <Route path="/categories">
                   <Route index element={<CategoryList />} />
