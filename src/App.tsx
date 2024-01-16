@@ -18,6 +18,8 @@ import routerBindings, {
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import dataProvider from "@refinedev/simple-rest";
+import axiosInstance from "./utils/axios";
+
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
@@ -37,6 +39,7 @@ import {
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
+import { API_URL } from "./constants";
 
 function App() {
   return (
@@ -46,13 +49,13 @@ function App() {
         <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
         <RefineSnackbarProvider>
           <Refine
-            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+            dataProvider={dataProvider(API_URL, axiosInstance)}
             notificationProvider={notificationProvider}
             routerProvider={routerBindings}
             authProvider={authProvider}
             resources={[
               {
-                name: "blog_posts",
+                name: "users",
                 list: "/blog-posts",
                 create: "/blog-posts/create",
                 edit: "/blog-posts/edit/:id",
