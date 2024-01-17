@@ -2,7 +2,6 @@ import React from "react";
 import {
   useDataGrid,
   EditButton,
-  ShowButton,
   List,
   DateField,
   EmailField,
@@ -11,7 +10,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 
 export const UserList: React.FC<IResourceComponentsProps> = () => {
-  const { dataGridProps } = useDataGrid();
+  const { dataGridProps } = useDataGrid({ pagination: { mode: "server" } });
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
