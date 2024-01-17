@@ -10,7 +10,7 @@ import { IResourceComponentsProps } from "@refinedev/core";
 //   Pending: "pending",
 // };
 
-export const UserEdit: React.FC<IResourceComponentsProps> = () => {
+export const CustomerEdit: React.FC<IResourceComponentsProps> = () => {
   const {
     saveButtonProps,
     register,

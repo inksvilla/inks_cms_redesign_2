@@ -5,12 +5,16 @@ import {
   List,
   DateField,
   EmailField,
+  ShowButton,
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 
-export const UserList: React.FC<IResourceComponentsProps> = () => {
-  const { dataGridProps } = useDataGrid({ pagination: { mode: "server" } });
+export const MerchantList: React.FC<IResourceComponentsProps> = () => {
+  const { dataGridProps } = useDataGrid({
+    pagination: { mode: "server" },
+    resource: "users/merchant",
+  });
 
   const columns = React.useMemo<GridColDef[]>(
     () => [
@@ -19,11 +23,25 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Name",
         minWidth: 200,
+        valueGetter: (params) => params.row.user?.name,
       },
       {
         field: "username",
         flex: 1,
         headerName: "Username",
+        minWidth: 200,
+        valueGetter: (params) => params.row.user?.username,
+      },
+      {
+        field: "country",
+        flex: 1,
+        headerName: "Country",
+        minWidth: 200,
+      },
+      {
+        field: "companyName",
+        flex: 1,
+        headerName: "Company",
         minWidth: 200,
       },
       {
@@ -31,6 +49,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Email",
         minWidth: 250,
+        valueGetter: (params) => params.row.user?.email,
         renderCell: function render({ value }) {
           return <EmailField value={value} />;
         },
@@ -40,6 +59,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Phone Number",
         minWidth: 200,
+        valueGetter: (params) => params.row.user?.phoneNumber,
       },
       {
         field: "numFollowers",
@@ -47,6 +67,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Followers",
         type: "number",
         minWidth: 100,
+        valueGetter: (params) => params.row.user?.numFollowers,
       },
       {
         field: "numFollowings",
@@ -54,24 +75,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Followings",
         type: "number",
         minWidth: 100,
-      },
-      {
-        field: "role",
-        flex: 1,
-        headerName: "Role",
-        minWidth: 100,
-      },
-      {
-        field: "status",
-        flex: 1,
-        headerName: "Status",
-        minWidth: 100,
-      },
-      {
-        field: "currency",
-        flex: 1,
-        headerName: "Currency",
-        minWidth: 100,
+        valueGetter: (params) => params.row.user?.numFollowings,
       },
       {
         field: "numReviews",
@@ -79,6 +83,14 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Reviews",
         type: "number",
         minWidth: 100,
+        valueGetter: (params) => params.row.user?.numReviews,
+      },
+      {
+        field: "status",
+        flex: 1,
+        headerName: "Status",
+        minWidth: 100,
+        valueGetter: (params) => params.row.user?.status,
       },
       {
         field: "createdAt",
@@ -88,6 +100,7 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
+        valueGetter: (params) => params.row.user?.createdAt,
       },
       {
         field: "updatedAt",
@@ -97,13 +110,19 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
+        valueGetter: (params) => params.row.user?.updatedAt,
       },
       {
         field: "actions",
         headerName: "Actions",
         sortable: false,
         renderCell: function render({ row }) {
-          return <EditButton hideText recordItemId={row._id} />;
+          return (
+            <>
+              <EditButton hideText recordItemId={row._id} />
+              <ShowButton hideText recordItemId={row._id} />
+            </>
+          );
         },
         align: "center",
         headerAlign: "center",

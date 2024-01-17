@@ -22,18 +22,14 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { UserEdit, UserList, UserShow } from "./pages/users";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { API_URL } from "./constants";
 import { dataProvider } from "./rest-data-provider";
+import { MerchantEdit, MerchantList } from "./pages/merchants";
+import { CustomerEdit, CustomerList } from "./pages/customers";
+import { MerchantShow } from "./pages/merchants/show";
 
 function App() {
   return (
@@ -49,9 +45,18 @@ function App() {
             authProvider={authProvider}
             resources={[
               {
-                name: "users",
-                list: "/users",
-                edit: "/users/edit/:id",
+                name: "customer", // override this resource name when fetching
+                list: "/customers",
+                edit: "/customers/edit/:id",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "users/merchant", // override this resource name when fetching
+                list: "/merchants",
+                edit: "/merchants/edit/:id",
+                show: "/merchants/show/:id",
                 meta: {
                   canDelete: false,
                 },
@@ -97,15 +102,14 @@ function App() {
                   index
                   element={<NavigateToResource resource="blog_posts" />}
                 />
-                <Route path="/users">
-                  <Route index element={<UserList />} />
-                  <Route path="edit/:id" element={<UserEdit />} />
+                <Route path="/customers">
+                  <Route index element={<CustomerList />} />
+                  <Route path="edit/:id" element={<CustomerEdit />} />
                 </Route>
-                <Route path="/categories">
-                  <Route index element={<CategoryList />} />
-                  <Route path="create" element={<CategoryCreate />} />
-                  <Route path="edit/:id" element={<CategoryEdit />} />
-                  <Route path="show/:id" element={<CategoryShow />} />
+                <Route path="/merchants">
+                  <Route index element={<MerchantList />} />
+                  <Route path="edit/:id" element={<MerchantEdit />} />
+                  <Route path="show/:id" element={<MerchantShow />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
