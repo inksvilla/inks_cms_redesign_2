@@ -28,12 +28,12 @@ import { Register } from "./pages/register";
 import { API_URL } from "./constants";
 import { dataProvider } from "./rest-data-provider";
 import { MerchantEdit, MerchantList } from "./pages/merchants";
-import { CustomerEdit, CustomerList } from "./pages/customers";
 import { MerchantShow } from "./pages/merchants/show";
 import { ProductList } from "./pages/products/list";
 import { ProductShow } from "./pages/products/show";
 import { ServiceList } from "./pages/services/list";
 import { ServiceShow } from "./pages/services/show";
+import { UserEdit, UserList } from "./pages/users";
 
 function App() {
   return (
@@ -49,15 +49,15 @@ function App() {
             authProvider={authProvider}
             resources={[
               {
-                name: "customers",
-                list: "/customers",
-                edit: "/customers/edit/:id",
+                name: "users",
+                list: "/users",
+                edit: "/users/edit/:id",
                 meta: {
                   canDelete: false,
                 },
               },
               {
-                name: "merchant",
+                name: "merchants",
                 list: "/merchants",
                 edit: "/merchants/edit/:id",
                 show: "/merchants/show/:id",
@@ -122,9 +122,9 @@ function App() {
                   index
                   element={<NavigateToResource resource="blog_posts" />}
                 />
-                <Route path="/customers">
-                  <Route index element={<CustomerList />} />
-                  <Route path="edit/:id" element={<CustomerEdit />} />
+                <Route path="/users">
+                  <Route index element={<UserList />} />
+                  <Route path="edit/:id" element={<UserEdit />} />
                 </Route>
                 <Route path="/merchants">
                   <Route index element={<MerchantList />} />

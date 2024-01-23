@@ -11,14 +11,16 @@ import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Controller } from "react-hook-form";
 import { UserStatus } from "../../constants";
+import { useParams } from "react-router-dom";
 
 export const MerchantEdit: React.FC<IResourceComponentsProps> = () => {
+  const { id } = useParams();
   const {
     saveButtonProps,
     register,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({ refineCoreProps: { resource: "users/merchant", id } });
 
   return (
     <Edit resource="users" canDelete={false} saveButtonProps={saveButtonProps}>

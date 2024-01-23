@@ -9,10 +9,10 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 
-export const CustomerList: React.FC<IResourceComponentsProps> = () => {
+export const UserList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({
     pagination: { mode: "server" },
-    resource: "users/customer",
+    resource: "users",
     // filters: {
     //   initial: [{ field: "role", operator: "lt", value: "customer" }],
     // },
