@@ -1,23 +1,24 @@
 import { Edit } from "@refinedev/mui";
-import { Box, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
-
-// const USER_STATUS = {
-//   Active: "active",
-//   Suspended: "suspended",
-//   Blocked: "blocked",
-//   Pending: "pending",
-// };
+import { Controller } from "react-hook-form";
+import { UserStatus } from "../../constants";
 
 export const CustomerEdit: React.FC<IResourceComponentsProps> = () => {
   const {
     saveButtonProps,
     register,
     formState: { errors },
+    control,
   } = useForm();
-
-  // const usersData = queryResult?.data?.data;
 
   return (
     <Edit canDelete={false} saveButtonProps={saveButtonProps}>
@@ -26,29 +27,52 @@ export const CustomerEdit: React.FC<IResourceComponentsProps> = () => {
         sx={{ display: "flex", flexDirection: "column" }}
         autoComplete="off"
       >
-        <TextField
-          {...register("name", {
-            required: "This field is required",
-          })}
-          error={!!(errors as any)?.name}
-          helperText={(errors as any)?.name?.message}
-          margin="normal"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          type="text"
-          label="Name"
-          name="name"
-        />
+        <Box mb={3}>
+          <TextField
+            {...register("name", {
+              required: "This field is required",
+              maxLength: { value: 100, message: "Max length is 100" },
+              minLength: { value: 3, message: "Min length is 3" },
+            })}
+            error={!!(errors as any)?.name}
+            helperText={(errors as any)?.name?.message}
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            type="text"
+            label="Name"
+            name="name"
+          />
+        </Box>
 
-        {/* <ReactHookFormSelect */}
-        {/*   name="status" */}
-        {/*   label="User Status" */}
-        {/*   control={control} */}
-        {/* > */}
-        {/*   {Object.keys(USER_STATUS).map((status) => ( */}
-        {/*     <MenuItem value={USER_STATUS[status]}>{status}</MenuItem> */}
-        {/*   ))} */}
-        {/* </ReactHookFormSelect> */}
+        <FormControl>
+          <InputLabel id="status-label">Status</InputLabel>
+          <Controller
+            control={control}
+            name="status"
+            rules={{ required: "This field is required" }}
+            render={({ field }) => {
+              return (
+                <Select
+                  labelId="status-label"
+                  id="userStatus"
+                  label="Status"
+                  value={field.value || ""}
+                  onChange={field.onChange}
+                >
+                  {Object.keys(UserStatus).map((k: string) => (
+                    <MenuItem
+                      key={k}
+                      value={UserStatus[k as keyof typeof UserStatus]}
+                    >
+                      {k}
+                    </MenuItem>
+                  ))}
+                </Select>
+              );
+            }}
+          />
+        </FormControl>
       </Box>
     </Edit>
   );

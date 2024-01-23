@@ -49,7 +49,7 @@ function App() {
             authProvider={authProvider}
             resources={[
               {
-                name: "customer", // override this resource name when fetching
+                name: "customers",
                 list: "/customers",
                 edit: "/customers/edit/:id",
                 meta: {
@@ -57,7 +57,7 @@ function App() {
                 },
               },
               {
-                name: "merchant", // override this resource name when fetching
+                name: "merchant",
                 list: "/merchants",
                 edit: "/merchants/edit/:id",
                 show: "/merchants/show/:id",
@@ -66,18 +66,16 @@ function App() {
                 },
               },
               {
-                name: "product", // override this resource name when fetching
+                name: "product",
                 list: "/products",
-                // edit: "/merchants/edit/:id",
                 show: "/products/show/:id",
                 meta: {
                   canDelete: false,
                 },
               },
               {
-                name: "service", // override this resource name when fetching
+                name: "service",
                 list: "/services",
-                // edit: "/merchants/edit/:id",
                 show: "/services/show/:id",
                 meta: {
                   canDelete: false,
