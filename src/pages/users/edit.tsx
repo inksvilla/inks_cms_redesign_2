@@ -1,4 +1,3 @@
-import { Edit } from "@refinedev/mui";
 import {
   Box,
   FormControl,
@@ -11,8 +10,9 @@ import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Controller } from "react-hook-form";
 import { UserStatus } from "../../constants";
+import { Edit } from "@refinedev/mui";
 
-export const CustomerEdit: React.FC<IResourceComponentsProps> = () => {
+export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   const {
     saveButtonProps,
     register,
