@@ -32,12 +32,24 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
         </Typography>
         <TextField value={record?.description} mb={2} />
 
-        <Box component="img" />
+        <Typography variant="body1" fontWeight="bold">
+          Images
+        </Typography>
 
-        {/* <Typography variant="body1" fontWeight="bold"> */}
-        {/*   Images */}
-        {/* </Typography> */}
-        {/* <MarkdownField value={record?.images} /> */}
+        <Box sx={{ display: "flex", gap: "2rem", overflow: "scroll" }} mb={2}>
+          {record?.images?.map((image: string) => (
+            <Box
+              component="img"
+              sx={{
+                width: 150,
+                height: 150,
+                objectFit: "cover",
+              }}
+              alt="Product images"
+              src={image}
+            />
+          ))}
+        </Box>
 
         <Typography variant="body1" fontWeight="bold">
           Currency
@@ -48,8 +60,8 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
           Ratings
         </Typography>
         <Stack direction="row" spacing={1} mb={2}>
-          {record?.ratings?.map((item: number) => (
-            <TagField value={item} key={item} />
+          {record?.ratings?.map((item: number, index: number) => (
+            <TagField value={item} key={index} />
           ))}
         </Stack>
 

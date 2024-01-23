@@ -7,7 +7,7 @@ import {
   NumberField,
   DateField,
 } from "@refinedev/mui";
-import { Typography, Stack } from "@mui/material";
+import { Typography, Stack, Box } from "@mui/material";
 
 export const ServiceShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow();
@@ -28,6 +28,20 @@ export const ServiceShow: React.FC<IResourceComponentsProps> = () => {
         </Typography>
         <TextField value={record?.description} mb={2} />
 
+        <Box sx={{ display: "flex", gap: "2rem", overflow: "scroll" }} mb={2}>
+          {record?.images?.map((image: string) => (
+            <Box
+              component="img"
+              sx={{
+                width: 150,
+                height: 150,
+                objectFit: "cover",
+              }}
+              alt="Product images"
+              src={image}
+            />
+          ))}
+        </Box>
         <Typography variant="body1" fontWeight="bold">
           User
         </Typography>
@@ -47,8 +61,8 @@ export const ServiceShow: React.FC<IResourceComponentsProps> = () => {
           Ratings
         </Typography>
         <Stack direction="row" spacing={1} mb={2}>
-          {record?.ratings?.map((item: number) => (
-            <TagField value={item} key={item} />
+          {record?.ratings?.map((item: number, index: number) => (
+            <TagField value={item} key={index} />
           ))}
         </Stack>
 
