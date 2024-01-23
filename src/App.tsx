@@ -30,6 +30,10 @@ import { dataProvider } from "./rest-data-provider";
 import { MerchantEdit, MerchantList } from "./pages/merchants";
 import { CustomerEdit, CustomerList } from "./pages/customers";
 import { MerchantShow } from "./pages/merchants/show";
+import { ProductList } from "./pages/products/list";
+import { ProductShow } from "./pages/products/show";
+import { ServiceList } from "./pages/services/list";
+import { ServiceShow } from "./pages/services/show";
 
 function App() {
   return (
@@ -57,6 +61,24 @@ function App() {
                 list: "/merchants",
                 edit: "/merchants/edit/:id",
                 show: "/merchants/show/:id",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "product", // override this resource name when fetching
+                list: "/products",
+                // edit: "/merchants/edit/:id",
+                show: "/products/show/:id",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "service", // override this resource name when fetching
+                list: "/services",
+                // edit: "/merchants/edit/:id",
+                show: "/services/show/:id",
                 meta: {
                   canDelete: false,
                 },
@@ -110,6 +132,16 @@ function App() {
                   <Route index element={<MerchantList />} />
                   <Route path="edit/:id" element={<MerchantEdit />} />
                   <Route path="show/:id" element={<MerchantShow />} />
+                </Route>
+                <Route path="/products">
+                  <Route index element={<ProductList />} />
+                  {/* <Route path="edit/:id" element={<MerchantEdit />} /> */}
+                  <Route path="show/:id" element={<ProductShow />} />
+                </Route>
+                <Route path="/services">
+                  <Route index element={<ServiceList />} />
+                  {/* <Route path="edit/:id" element={<MerchantEdit />} /> */}
+                  <Route path="show/:id" element={<ServiceShow />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
