@@ -14,6 +14,9 @@ export const MerchantList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({
     pagination: { mode: "server" },
     resource: "users/merchant",
+    // filters: {
+    //   initial: [{ field: "role", operator: "eq", value: "merchant" }],
+    // },
   });
 
   const columns = React.useMemo<GridColDef[]>(

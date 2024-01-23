@@ -13,9 +13,9 @@ export const CustomerList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({
     pagination: { mode: "server" },
     resource: "users/customer",
-    filters: {
-      initial: [{ field: "userType", operator: "eq", value: "merchant" }],
-    },
+    // filters: {
+    //   initial: [{ field: "role", operator: "lt", value: "customer" }],
+    // },
   });
 
   const columns = React.useMemo<GridColDef[]>(

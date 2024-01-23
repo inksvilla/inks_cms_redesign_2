@@ -53,7 +53,7 @@ function App() {
                 },
               },
               {
-                name: "users/merchant", // override this resource name when fetching
+                name: "merchant", // override this resource name when fetching
                 list: "/merchants",
                 edit: "/merchants/edit/:id",
                 show: "/merchants/show/:id",
