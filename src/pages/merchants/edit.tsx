@@ -1,80 +1,110 @@
 import { Edit } from "@refinedev/mui";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Box, TextField, Checkbox, FormControlLabel } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Controller } from "react-hook-form";
-import { UserStatus } from "../../constants";
-import { useParams } from "react-router-dom";
 
 export const MerchantEdit: React.FC<IResourceComponentsProps> = () => {
-  const { id } = useParams();
   const {
     saveButtonProps,
     register,
-    formState: { errors },
     control,
-  } = useForm({ refineCoreProps: { resource: "users/merchant", id } });
+    formState: { errors },
+  } = useForm();
 
   return (
-    <Edit resource="users" canDelete={false} saveButtonProps={saveButtonProps}>
+    <Edit saveButtonProps={saveButtonProps}>
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column" }}
         autoComplete="off"
       >
-        <Box mb={3}>
-          <TextField
-            {...register("name", {
-              required: "This field is required",
-              maxLength: { value: 100, message: "Max length is 100" },
-              minLength: { value: 3, message: "Min length is 3" },
-            })}
-            error={!!(errors as any)?.name}
-            helperText={(errors as any)?.name?.message}
-            margin="normal"
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-            type="text"
-            label="Name"
-            name="name"
-          />
-        </Box>
-
-        <FormControl>
-          <InputLabel id="status-label">Status</InputLabel>
-          <Controller
-            control={control}
-            name="status"
-            rules={{ required: "This field is required" }}
-            render={({ field }) => {
-              return (
-                <Select
-                  labelId="status-label"
-                  id="userStatus"
-                  label="Status"
-                  value={field.value || ""}
-                  onChange={field.onChange}
-                >
-                  {Object.keys(UserStatus).map((k: string) => (
-                    <MenuItem
-                      key={k}
-                      value={UserStatus[k as keyof typeof UserStatus]}
-                    >
-                      {k}
-                    </MenuItem>
-                  ))}
-                </Select>
-              );
-            }}
-          />
-        </FormControl>
+        <TextField
+          {...register("country", {
+            required: "This field is required",
+          })}
+          error={!!(errors as any)?.country}
+          helperText={(errors as any)?.country?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label="Country"
+          name="country"
+        />
+        <Controller
+          control={control}
+          name="featured"
+          // eslint-disable-next-line
+          defaultValue={null as any}
+          render={({ field }) => (
+            <FormControlLabel
+              label="Featured"
+              control={
+                <Checkbox
+                  {...field}
+                  checked={field.value}
+                  onChange={(event) => {
+                    field.onChange(event.target.checked);
+                  }}
+                />
+              }
+            />
+          )}
+        />
+        <TextField
+          {...register("companyName", {
+            required: "This field is required",
+          })}
+          error={!!(errors as any)?.companyName}
+          helperText={(errors as any)?.companyName?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label="Company Name"
+          name="companyName"
+        />
+        <TextField
+          {...register("companyType", {
+            required: "This field is required",
+          })}
+          error={!!(errors as any)?.companyType}
+          helperText={(errors as any)?.companyType?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label="Company Type"
+          name="companyType"
+        />
+        <TextField
+          {...register("companyAddress", {
+            required: "This field is required",
+          })}
+          error={!!(errors as any)?.companyAddress}
+          helperText={(errors as any)?.companyAddress?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label="Company Address"
+          name="companyAddress"
+        />
+        <TextField
+          {...register("documentNumber", {
+            required: "This field is required",
+            valueAsNumber: true,
+          })}
+          error={!!(errors as any)?.documentNumber}
+          helperText={(errors as any)?.documentNumber?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label="Document Number"
+          name="documentNumber"
+        />
       </Box>
     </Edit>
   );

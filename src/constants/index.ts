@@ -6,3 +6,19 @@ export const UserStatus = {
   Blocked: "blocked",
   Pending: "pending",
 } as const;
+
+export const ServiceStatus = {
+  Active: "active",
+  Inactive: "inactive",
+} as const;
+
+export const ProductStatus = {
+  Active: "active",
+  Inactive: "inactive",
+} as const;
+
+export const Currencies = {
+  NPR: "NPR",
+  USD: "USD",
+  INR: "INR",
+} as const;

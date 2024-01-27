@@ -10,9 +10,9 @@ import {
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Controller } from "react-hook-form";
-import { ProductStatus, Currencies } from "../../constants";
+import { ServiceStatus, Currencies } from "../../constants";
 
-export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
+export const ServiceEdit: React.FC<IResourceComponentsProps> = () => {
   const {
     saveButtonProps,
     register,
@@ -71,10 +71,10 @@ export const ProductEdit: React.FC<IResourceComponentsProps> = () => {
                     value={field.value || ""}
                     onChange={field.onChange}
                   >
-                    {Object.keys(ProductStatus).map((k: string) => (
+                    {Object.keys(ServiceStatus).map((k: string) => (
                       <MenuItem
                         key={k}
-                        value={ProductStatus[k as keyof typeof ProductStatus]}
+                        value={ServiceStatus[k as keyof typeof ServiceStatus]}
                       >
                         {k}
                       </MenuItem>

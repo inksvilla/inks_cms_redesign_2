@@ -3,7 +3,6 @@ import {
   Show,
   TextFieldComponent as TextField,
   TagField,
-  MarkdownField,
   NumberField,
   DateField,
 } from "@refinedev/mui";

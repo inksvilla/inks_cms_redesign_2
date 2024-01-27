@@ -34,6 +34,8 @@ import { ProductShow } from "./pages/products/show";
 import { ServiceList } from "./pages/services/list";
 import { ServiceShow } from "./pages/services/show";
 import { UserEdit, UserList } from "./pages/users";
+import { ServiceEdit } from "./pages/services/edit";
+import { ProductEdit } from "./pages/products/edit";
 
 function App() {
   return (
@@ -57,7 +59,7 @@ function App() {
                 },
               },
               {
-                name: "merchants",
+                name: "merchant",
                 list: "/merchants",
                 edit: "/merchants/edit/:id",
                 show: "/merchants/show/:id",
@@ -68,6 +70,7 @@ function App() {
               {
                 name: "product",
                 list: "/products",
+                edit: "/products/edit/:id",
                 show: "/products/show/:id",
                 meta: {
                   canDelete: false,
@@ -77,6 +80,7 @@ function App() {
                 name: "service",
                 list: "/services",
                 show: "/services/show/:id",
+                edit: "/services/edit/:id",
                 meta: {
                   canDelete: false,
                 },
@@ -133,12 +137,12 @@ function App() {
                 </Route>
                 <Route path="/products">
                   <Route index element={<ProductList />} />
-                  {/* <Route path="edit/:id" element={<MerchantEdit />} /> */}
+                  <Route path="edit/:id" element={<ProductEdit />} />
                   <Route path="show/:id" element={<ProductShow />} />
                 </Route>
                 <Route path="/services">
                   <Route index element={<ServiceList />} />
-                  {/* <Route path="edit/:id" element={<MerchantEdit />} /> */}
+                  <Route path="edit/:id" element={<ServiceEdit />} />
                   <Route path="show/:id" element={<ServiceShow />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
