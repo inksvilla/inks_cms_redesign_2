@@ -15,6 +15,12 @@ axiosInstance.interceptors.response.use(
       statusCode: error.response?.status,
     };
 
+    if (error.response?.status === 403 || error.response?.status === 401) {
+      // remove token and redirect
+      localStorage.removeItem("accessToken");
+      window.location.href = "/login";
+    }
+
     return Promise.reject(customError);
   }
 );

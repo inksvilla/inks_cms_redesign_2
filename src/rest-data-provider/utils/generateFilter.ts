@@ -21,7 +21,14 @@ export const generateFilter = (filters?: CrudFilters) => {
         }
 
         const mappedOperator = mapOperator(operator);
-        queryFilters[`${field}${mappedOperator}`] = value;
+        if (mappedOperator) {
+          queryFilters[`${field}[${mappedOperator}]`] = value; // ratings[gte]=3
+        } else if (operator === "contains") {
+          queryFilters[`${field}[regex]`] = value; // name[regex]=Barry
+          queryFilters[`${field}[options]`] = "i"; // name[options]=i
+        } else {
+          queryFilters[`${field}`] = value; // name=Barry
+        }
       }
     });
   }

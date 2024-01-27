@@ -8,17 +8,16 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
+import { FILTER_DEBOUNCE_MS } from "../../constants";
+import { setColumnFilters } from "../../utils/table";
 
 export const UserList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({
     pagination: { mode: "server" },
     resource: "users",
-    // filters: {
-    //   initial: [{ field: "role", operator: "lt", value: "customer" }],
-    // },
   });
 
-  const columns = React.useMemo<GridColDef[]>(
+  let columns = React.useMemo<GridColDef[]>(
     () => [
       {
         field: "name",
@@ -85,6 +84,10 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Created At",
         minWidth: 150,
+        type: "date",
+        valueGetter: ({ row }) => {
+          return new Date(row.createdAt);
+        },
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -94,6 +97,10 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Updated At",
         minWidth: 150,
+        type: "date",
+        valueGetter: ({ row }) => {
+          return new Date(row.updatedAt);
+        },
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -117,12 +124,15 @@ export const UserList: React.FC<IResourceComponentsProps> = () => {
     []
   );
 
+  columns = setColumnFilters(columns);
+
   return (
     <List>
       <DataGrid
         {...dataGridProps}
         getRowId={(row) => row._id}
         columns={columns}
+        filterDebounceMs={FILTER_DEBOUNCE_MS}
         autoHeight
       />
     </List>

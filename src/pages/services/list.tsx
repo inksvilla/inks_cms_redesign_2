@@ -9,12 +9,13 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Typography } from "@mui/material";
-import { ServiceStatus } from "../../constants";
+import { FILTER_DEBOUNCE_MS, ServiceStatus } from "../../constants";
+import { setColumnFilters } from "../../utils/table";
 
 export const ServiceList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid();
 
-  const columns = React.useMemo<GridColDef[]>(
+  let columns = React.useMemo<GridColDef[]>(
     () => [
       {
         field: "name",
@@ -75,6 +76,10 @@ export const ServiceList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Created At",
         minWidth: 200,
+        type: "date",
+        valueGetter: ({ row }) => {
+          return new Date(row.createdAt);
+        },
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -84,6 +89,10 @@ export const ServiceList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Updated At",
         minWidth: 200,
+        type: "date",
+        valueGetter: ({ row }) => {
+          return new Date(row.updatedAt);
+        },
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
@@ -108,12 +117,15 @@ export const ServiceList: React.FC<IResourceComponentsProps> = () => {
     []
   );
 
+  columns = setColumnFilters(columns);
+
   return (
     <List>
       <DataGrid
         {...dataGridProps}
         getRowId={(row) => row?._id}
         columns={columns}
+        filterDebounceMs={FILTER_DEBOUNCE_MS}
         autoHeight
       />
     </List>

@@ -23,6 +23,14 @@ export const authProvider: AuthBindings = {
           },
         };
       }
+    } else {
+      return {
+        success: false,
+        error: {
+          name: "LoginError",
+          message: "Invalid username or password",
+        },
+      };
     }
   },
   logout: async () => {

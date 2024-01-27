@@ -22,3 +22,5 @@ export const Currencies = {
   USD: "USD",
   INR: "INR",
 } as const;
+
+export const FILTER_DEBOUNCE_MS = 700;
