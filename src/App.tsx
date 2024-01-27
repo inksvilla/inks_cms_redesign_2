@@ -59,7 +59,7 @@ function App() {
                 },
               },
               {
-                name: "merchant",
+                name: "merchants",
                 list: "/merchants",
                 edit: "/merchants/edit/:id",
                 show: "/merchants/show/:id",
