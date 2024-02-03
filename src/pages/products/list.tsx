@@ -43,8 +43,12 @@ export const ProductList: React.FC<IResourceComponentsProps> = () => {
           return (
             <Typography
               fontSize={14}
-              fontWeight="bold"
-              color={value === ProductStatus.Active ? "green" : "red"}
+              fontWeight={
+                value === ProductStatus.Inactive ? "normal" : "medium"
+              }
+              color={
+                value === ProductStatus.Inactive ? "text.secondary" : "green"
+              }
             >
               {value[0].toUpperCase() + value.slice(1)}
             </Typography>

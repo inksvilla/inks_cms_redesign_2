@@ -4,7 +4,6 @@ import {
   ErrorComponent,
   notificationProvider,
   RefineSnackbarProvider,
-  ThemedLayoutV2,
   ThemedSiderV2,
   TextFieldComponent,
 } from "@refinedev/mui";
@@ -22,9 +21,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { authProvider } from "./authProvider";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { ForgotPassword } from "./pages/forgotPassword";
 import { Login } from "./pages/login";
-import { Register } from "./pages/register";
 import { API_URL } from "./constants";
 import { dataProvider } from "./rest-data-provider";
 import { MerchantEdit, MerchantList } from "./pages/merchants";
@@ -36,6 +33,8 @@ import { ServiceShow } from "./pages/services/show";
 import { UserEdit, UserList } from "./pages/users";
 import { ServiceEdit } from "./pages/services/edit";
 import { ProductEdit } from "./pages/products/edit";
+import Dashboard from "./pages/dashboard/dashboard";
+import { ThemedLayoutV2 } from "./components/layout";
 
 function App() {
   return (
@@ -50,6 +49,7 @@ function App() {
             routerProvider={routerBindings}
             authProvider={authProvider}
             resources={[
+              { name: "dashboard", list: "/dashboard" },
               {
                 name: "users",
                 list: "/users",
@@ -109,6 +109,7 @@ function App() {
                             ) : (
                               <TextFieldComponent
                                 fontSize={16}
+                                fontWeight="medium"
                                 value="Inksvilla Admin Panel"
                               />
                             )
@@ -126,6 +127,10 @@ function App() {
                   index
                   element={<NavigateToResource resource="blog_posts" />}
                 />
+
+                <Route path="/dashboard">
+                  <Route index element={<Dashboard />} />
+                </Route>
                 <Route path="/users">
                   <Route index element={<UserList />} />
                   <Route path="edit/:id" element={<UserEdit />} />
@@ -158,8 +163,6 @@ function App() {
                 }
               >
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
               </Route>
             </Routes>
 
