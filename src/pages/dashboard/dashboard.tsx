@@ -45,10 +45,10 @@ export default function Dashboard() {
   }
 
   const dashboard = data?.data?.data;
-  const customers = dashboard?.customers;
-  const merchants = dashboard?.merchants;
-  const products = dashboard?.products;
-  const services = dashboard?.services;
+  const customerStats = dashboard?.customerStats;
+  const merchantStats = dashboard?.merchantStats;
+  const productStats = dashboard?.productStats;
+  const serviceStats = dashboard?.serviceStats;
 
   const handleTabChange = (e: React.SyntheticEvent, tabIndex: number) => {
     setCurrentTabIndex(tabIndex);
@@ -58,13 +58,13 @@ export default function Dashboard() {
   const getChartData = () => {
     switch (currentTabIndex) {
       case 0:
-        return { data: customers?.last12Months, dataKey: "customers" };
+        return { data: customerStats?.last12Months, dataKey: "customers" };
       case 1:
-        return { data: merchants?.last12Months, dataKey: "merchants" };
+        return { data: merchantStats?.last12Months, dataKey: "merchants" };
       case 2:
-        return { data: products?.last12Months, dataKey: "products" };
+        return { data: productStats?.last12Months, dataKey: "products" };
       case 3:
-        return { data: services?.last12Months, dataKey: "services" };
+        return { data: serviceStats?.last12Months, dataKey: "services" };
       default:
         return { data: [], dataKey: "" };
     }
@@ -91,35 +91,35 @@ export default function Dashboard() {
         <SummaryCard
           title="Customers"
           content={[
-            { title: "Total", value: customers?.total },
-            { title: "Active", value: customers?.active },
-            { title: "Blocked", value: customers?.blocked },
-            { title: "Suspended", value: customers?.suspended },
+            { title: "Total", value: customerStats?.total },
+            { title: "Active", value: customerStats?.active },
+            { title: "Blocked", value: customerStats?.blocked },
+            { title: "Suspended", value: customerStats?.suspended },
           ]}
         />
         <SummaryCard
           title="Merchants"
           content={[
-            { title: "Total", value: merchants?.total },
-            { title: "Active", value: merchants?.active },
-            { title: "Pending", value: merchants?.pending },
-            { title: "Blocked", value: merchants?.blocked },
+            { title: "Total", value: merchantStats?.total },
+            { title: "Active", value: merchantStats?.active },
+            { title: "Pending", value: merchantStats?.pending },
+            { title: "Blocked", value: merchantStats?.blocked },
           ]}
         />
         <SummaryCard
           title="Products"
           content={[
-            { title: "Total", value: products?.active },
-            { title: "Active", value: products?.inactive },
-            { title: "Inactive", value: products?.inactive },
+            { title: "Total", value: productStats?.total },
+            { title: "Active", value: productStats?.active },
+            { title: "Inactive", value: productStats?.inactive },
           ]}
         />
         <SummaryCard
           title="Services"
           content={[
-            { title: "Total", value: services?.total },
-            { title: "Active", value: services?.active },
-            { title: "Inactive", value: services?.inactive },
+            { title: "Total", value: serviceStats?.total },
+            { title: "Active", value: serviceStats?.active },
+            { title: "Inactive", value: serviceStats?.inactive },
           ]}
         />
       </Box>
@@ -201,7 +201,7 @@ const DashboardChart = ({ dataKey, data }: { dataKey: string; data: any }) => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="monthName" />
           <YAxis />
           <Tooltip />
           <Legend />
