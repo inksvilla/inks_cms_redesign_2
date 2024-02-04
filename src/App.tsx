@@ -30,7 +30,7 @@ import { ProductList } from "./pages/products/list";
 import { ProductShow } from "./pages/products/show";
 import { ServiceList } from "./pages/services/list";
 import { ServiceShow } from "./pages/services/show";
-import { UserEdit, UserList } from "./pages/users";
+import { UserEdit, UserList, UserShow } from "./pages/users";
 import { ServiceEdit } from "./pages/services/edit";
 import { ProductEdit } from "./pages/products/edit";
 import Dashboard from "./pages/dashboard/dashboard";
@@ -54,6 +54,7 @@ function App() {
                 name: "users",
                 list: "/users",
                 edit: "/users/edit/:id",
+                show: "/users/show/:id",
                 meta: {
                   canDelete: false,
                 },
@@ -125,7 +126,7 @@ function App() {
               >
                 <Route
                   index
-                  element={<NavigateToResource resource="blog_posts" />}
+                  element={<NavigateToResource resource="dashboard" />}
                 />
 
                 <Route path="/dashboard">
@@ -134,6 +135,7 @@ function App() {
                 <Route path="/users">
                   <Route index element={<UserList />} />
                   <Route path="edit/:id" element={<UserEdit />} />
+                  <Route path="show/:id" element={<UserShow />} />
                 </Route>
                 <Route path="/merchants">
                   <Route index element={<MerchantList />} />
