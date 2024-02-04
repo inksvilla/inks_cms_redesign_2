@@ -10,7 +10,8 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { FILTER_DEBOUNCE_MS } from "../../constants";
-import { setColumnFilters } from "../../utils/table";
+import { getUserStatusColor, setColumnFilters } from "../../utils/table";
+import { Typography } from "@mui/material";
 
 export const MerchantList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({
@@ -31,7 +32,7 @@ export const MerchantList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Username",
         minWidth: 200,
-        valueGetter: (params) => params.row.user?.username,
+        valueGetter: (params) => params.row.user?.username || "-",
       },
       {
         field: "country",
@@ -90,8 +91,19 @@ export const MerchantList: React.FC<IResourceComponentsProps> = () => {
         field: "status",
         flex: 1,
         headerName: "Status",
-        minWidth: 100,
+        minWidth: 150,
         valueGetter: (params) => params.row.user?.status,
+        renderCell: function render({ value }) {
+          return (
+            <Typography
+              fontSize={14}
+              fontWeight={"medium"}
+              color={getUserStatusColor(value)}
+            >
+              {value[0].toUpperCase() + value.slice(1)}
+            </Typography>
+          );
+        },
       },
       {
         field: "createdAt",

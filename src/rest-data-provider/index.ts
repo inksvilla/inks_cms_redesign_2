@@ -16,6 +16,7 @@ export const dataProvider = (
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
     const url = `${apiUrl}/${resource}`;
 
+    console.log(pagination);
     const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
 
     const { headers: headersFromMeta, method } = meta ?? {};
@@ -39,14 +40,14 @@ export const dataProvider = (
       query.sort = generatedSort.join(",");
     }
 
-    const { data, headers } = await httpClient[requestMethod](
+    const { data } = await httpClient[requestMethod](
       `${url}?${stringify(query)}&${stringify(queryFilters)}`,
       {
         headers: headersFromMeta,
       }
     );
 
-    const total = +headers["x-total-count"];
+    const total = data.metadata.totalItems;
 
     return {
       data: data?.data,

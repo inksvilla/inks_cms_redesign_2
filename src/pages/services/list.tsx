@@ -8,9 +8,9 @@ import {
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
-import { Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import { FILTER_DEBOUNCE_MS, ServiceStatus } from "../../constants";
-import { setColumnFilters } from "../../utils/table";
+import { getServiceStatusColor, setColumnFilters } from "../../utils/table";
 
 export const ServiceList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid();
@@ -27,12 +27,11 @@ export const ServiceList: React.FC<IResourceComponentsProps> = () => {
         field: "user",
         flex: 1,
         headerName: "User",
-        valueGetter: ({ row }) => {
-          const value = row?.user?.name;
-
-          return value;
-        },
         minWidth: 200,
+        valueGetter: ({ row }) => row?.user?.name,
+        renderCell: function render({ value, row }) {
+          return <Link href={`/users/show/${row.user?.id}`}>{value}</Link>;
+        },
       },
       {
         field: "status",
@@ -43,8 +42,8 @@ export const ServiceList: React.FC<IResourceComponentsProps> = () => {
           return (
             <Typography
               fontSize={14}
-              fontWeight="bold"
-              color={value === ServiceStatus.Active ? "green" : "red"}
+              fontWeight={"medium"}
+              color={getServiceStatusColor(value)}
             >
               {value[0].toUpperCase() + value.slice(1)}
             </Typography>
@@ -126,6 +125,7 @@ export const ServiceList: React.FC<IResourceComponentsProps> = () => {
         getRowId={(row) => row?._id}
         columns={columns}
         filterDebounceMs={FILTER_DEBOUNCE_MS}
+        pageSizeOptions={[10, 25, 50, 100]}
         autoHeight
       />
     </List>
