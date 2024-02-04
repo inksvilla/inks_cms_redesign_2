@@ -27,7 +27,7 @@ export default function Dashboard() {
     method: "get",
   });
 
-  const [currentTabIndex, setCurrentTabIndex] = useState<number>(0);
+  const [tab, setCurrentTab] = useState<string>("customers");
 
   if (isLoading) {
     return (
@@ -49,22 +49,25 @@ export default function Dashboard() {
   const merchantStats = dashboard?.merchantStats;
   const productStats = dashboard?.productStats;
   const serviceStats = dashboard?.serviceStats;
+  const paymentStats = dashboard?.paymentStats;
 
-  const handleTabChange = (e: React.SyntheticEvent, tabIndex: number) => {
-    setCurrentTabIndex(tabIndex);
+  const handleTabChange = (e: React.SyntheticEvent, value: string) => {
+    setCurrentTab(value);
   };
 
   // get chart data based on the currently selected tab index
   const getChartData = () => {
-    switch (currentTabIndex) {
-      case 0:
-        return { data: customerStats?.last12Months, dataKey: "customers" };
-      case 1:
-        return { data: merchantStats?.last12Months, dataKey: "merchants" };
-      case 2:
-        return { data: productStats?.last12Months, dataKey: "products" };
-      case 3:
-        return { data: serviceStats?.last12Months, dataKey: "services" };
+    switch (tab) {
+      case "customers":
+        return { data: customerStats?.last12Months, dataKey: tab };
+      case "merchants":
+        return { data: merchantStats?.last12Months, dataKey: tab };
+      case "products":
+        return { data: productStats?.last12Months, dataKey: tab };
+      case "services":
+        return { data: serviceStats?.last12Months, dataKey: tab };
+      case "payments":
+        return { data: paymentStats?.last12Months, dataKey: tab };
       default:
         return { data: [], dataKey: "" };
     }
@@ -122,16 +125,22 @@ export default function Dashboard() {
             { title: "Inactive", value: serviceStats?.inactive },
           ]}
         />
+        <SummaryCard
+          title="Payments"
+          content={[
+            { title: "Total", value: paymentStats?.total },
+            { title: "Initiated", value: paymentStats?.initiated },
+            { title: "Paid", value: paymentStats?.paid },
+            { title: "Failed", value: paymentStats?.failed },
+          ]}
+        />
       </Box>
-      <Tabs
-        sx={{ marginBottom: 3 }}
-        value={currentTabIndex}
-        onChange={handleTabChange}
-      >
-        <Tab label="Customers" />
-        <Tab label="Merchants" />
-        <Tab label="Products" />
-        <Tab label="Services" />
+      <Tabs sx={{ marginBottom: 3 }} value={tab} onChange={handleTabChange}>
+        <Tab label="Customers" value="customers" />
+        <Tab label="Merchants" value="merchants" />
+        <Tab label="Products" value="products" />
+        <Tab label="Services" value="services" />
+        <Tab label="Payments" value="payments" />
       </Tabs>
       <Typography sx={{ fontWeight: "medium", fontSize: 18 }} mb={3}>
         Activity For Last 12 Months

@@ -1,4 +1,5 @@
 import { useShow, IResourceComponentsProps } from "@refinedev/core";
+import React from "react";
 import {
   Show,
   TextFieldComponent as TextField,
@@ -27,6 +28,79 @@ export const ServiceShow: React.FC<IResourceComponentsProps> = () => {
         </Typography>
         <TextField value={record?.description} mb={2} />
 
+        <Typography variant="body1" fontWeight="bold">
+          Capacity
+        </Typography>
+
+        <Stack direction="row" spacing={3} mb={2}>
+          {record?.operatingDays?.map((item: any) => {
+            return (
+              <Box>
+                <Typography
+                  textTransform="capitalize"
+                  variant="body1"
+                  fontWeight="medium"
+                >
+                  {item.day}
+                </Typography>
+                <TextField value={item.capacity} mb={2} />
+              </Box>
+            );
+          })}
+        </Stack>
+
+        <Typography variant="body1" fontWeight="bold">
+          Attributes
+        </Typography>
+        <Stack overflow="scroll" direction="row" spacing={3} mb={2}>
+          {record?.attributes?.map((item: any, index: number) => {
+            const customAttributeKeys = Object.keys(item.attribute);
+
+            return (
+              <Box
+                key={index}
+                sx={{
+                  flexShrink: 0,
+                  paddingTop: 2,
+                  paddingX: 2,
+                  border: "2px solid #E5E7EB",
+                }}
+              >
+                <Typography variant="body1" fontWeight="medium">
+                  Price
+                </Typography>
+                <TextField
+                  value={`${record?.currency} ${item?.price}`}
+                  mb={2}
+                />
+
+                <Typography variant="body1" fontWeight="medium">
+                  Items in stock
+                </Typography>
+                <TextField value={item?.itemsInStock} mb={2} />
+
+                {customAttributeKeys?.map((key) => {
+                  return (
+                    <React.Fragment key={key}>
+                      <Typography
+                        textTransform="capitalize"
+                        variant="body1"
+                        fontWeight="medium"
+                      >
+                        {key}
+                      </Typography>
+                      <TextField value={item.attribute[key]} mb={2} />
+                    </React.Fragment>
+                  );
+                })}
+              </Box>
+            );
+          })}
+        </Stack>
+
+        <Typography variant="body1" fontWeight="bold">
+          Images
+        </Typography>
         <Box sx={{ display: "flex", gap: "2rem", overflow: "scroll" }} mb={2}>
           {record?.images?.map((image: string) => (
             <Box
@@ -36,7 +110,7 @@ export const ServiceShow: React.FC<IResourceComponentsProps> = () => {
                 height: 150,
                 objectFit: "cover",
               }}
-              alt="Product images"
+              alt="Service images"
               src={image}
             />
           ))}

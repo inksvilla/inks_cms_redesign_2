@@ -73,6 +73,23 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
             }}
           />
         </FormControl>
+
+        <Box>
+          <TextField
+            {...register("password", {
+              maxLength: { value: 30, message: "Max length is 30" },
+              minLength: { value: 6, message: "Min length is 6" },
+            })}
+            error={!!(errors as any)?.password}
+            helperText={(errors as any)?.password?.message}
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            type="password"
+            label="Password"
+            name="password"
+          />
+        </Box>
       </Box>
     </Edit>
   );

@@ -7,6 +7,7 @@ import {
   DateField,
 } from "@refinedev/mui";
 import { Typography, Stack, Box } from "@mui/material";
+import React from "react";
 
 export const ProductShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow();
@@ -33,9 +34,52 @@ export const ProductShow: React.FC<IResourceComponentsProps> = () => {
         <TextField value={record?.description} mb={2} />
 
         <Typography variant="body1" fontWeight="bold">
+          Attributes
+        </Typography>
+        <Stack overflow="scroll" direction="row" spacing={3} mb={2}>
+          {record?.attributes?.map((item: any, index: number) => {
+            const customAttributeKeys = Object.keys(item.attribute);
+
+            return (
+              <Box
+                key={index}
+                sx={{
+                  flexShrink: 0,
+                  paddingTop: 2,
+                  paddingX: 2,
+                  border: "2px solid #E5E7EB",
+                }}
+              >
+                <Typography variant="body1" fontWeight="medium">
+                  Price
+                </Typography>
+                <TextField
+                  value={`${record?.currency} ${item?.price}`}
+                  mb={2}
+                />
+
+                {customAttributeKeys?.map((key) => {
+                  return (
+                    <React.Fragment key={key}>
+                      <Typography
+                        textTransform="capitalize"
+                        variant="body1"
+                        fontWeight="medium"
+                      >
+                        {key}
+                      </Typography>
+                      <TextField value={item.attribute[key]} mb={2} />
+                    </React.Fragment>
+                  );
+                })}
+              </Box>
+            );
+          })}
+        </Stack>
+
+        <Typography variant="body1" fontWeight="bold">
           Images
         </Typography>
-
         <Box sx={{ display: "flex", gap: "2rem", overflow: "scroll" }} mb={2}>
           {record?.images?.map((image: string) => (
             <Box
