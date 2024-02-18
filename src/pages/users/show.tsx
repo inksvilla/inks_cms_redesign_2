@@ -28,7 +28,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
                 borderRadius: "50%",
                 objectFit: "cover",
               }}
-              alt="Product images"
+              alt="User Profile"
               src={record?.picture?.profile}
             />
           </Box>

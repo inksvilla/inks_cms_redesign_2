@@ -9,7 +9,7 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { Link, Typography } from "@mui/material";
-import { FILTER_DEBOUNCE_MS, ServiceStatus } from "../../constants";
+import { FILTER_DEBOUNCE_MS } from "../../constants";
 import { getServiceStatusColor, setColumnFilters } from "../../utils/table";
 
 export const ServiceList: React.FC<IResourceComponentsProps> = () => {

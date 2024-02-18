@@ -6,6 +6,7 @@ import {
 import {
   AppointmentStatus,
   OrderStatus,
+  PaymentStatus,
   ProductStatus,
   ServiceStatus,
   UserStatus,
@@ -76,11 +77,23 @@ export const getAppointmentStatusColor = (status: string) => {
     case AppointmentStatus.Completed:
       return "success.main";
     case AppointmentStatus.Confirmed:
-      return "success.main";
+      return "success.secondary";
     case AppointmentStatus.Unpaid:
       return "warning.main";
     case AppointmentStatus.Cancelled:
-      return "errors.main";
+      return "error.main";
+  }
+};
+
+export const getPaymentStatusColor = (status: string) => {
+  console.log(status);
+  switch (status) {
+    case PaymentStatus.Initiated:
+      return "success.secondary";
+    case PaymentStatus.Success:
+      return "success.main";
+    case PaymentStatus.Failed:
+      return "error.main";
   }
 };
 
@@ -93,6 +106,6 @@ export const getOrderStatusColor = (status: string) => {
     case OrderStatus.Unpaid:
       return "warning.main";
     case OrderStatus.Cancelled:
-      return "errors.main";
+      return "error.main";
   }
 };

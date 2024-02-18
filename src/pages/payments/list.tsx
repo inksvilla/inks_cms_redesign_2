@@ -1,9 +1,10 @@
 import React from "react";
-import { useDataGrid, List, DateField } from "@refinedev/mui";
+import { useDataGrid, List, DateField, ShowButton } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
-import { setColumnFilters } from "../../utils/table";
+import { getPaymentStatusColor, setColumnFilters } from "../../utils/table";
 import { FILTER_DEBOUNCE_MS } from "../../constants";
+import { Link, Typography } from "@mui/material";
 
 export const PaymentList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({ resource: "payment/admin" });
@@ -15,15 +16,22 @@ export const PaymentList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Type",
         minWidth: 200,
+        renderCell: function render({ row, value }) {
+          return (
+            <Link href={`/${value}s/show/${row.item}`}>
+              {value[0].toUpperCase() + value.slice(1)}
+            </Link>
+          );
+        },
       },
       {
         field: "user",
         flex: 1,
-        headerName: "User",
+        headerName: "Customer",
         minWidth: 300,
-        valueGetter: ({ row }) => {
-          const value = row?.user?.name;
-          return value;
+        valueGetter: ({ row }) => row?.user?.name,
+        renderCell: function render({ value, row }) {
+          return <Link href={`/users/show/${row.user?._id}`}>{value}</Link>;
         },
       },
       {
@@ -34,6 +42,11 @@ export const PaymentList: React.FC<IResourceComponentsProps> = () => {
         valueGetter: ({ row }) => {
           const value = row?.merchant?.name;
           return value;
+        },
+        renderCell: function render({ value, row }) {
+          return (
+            <Link href={`/users/show/${row?.merchant?._id}`}>{value}</Link>
+          );
         },
       },
       {
@@ -47,6 +60,17 @@ export const PaymentList: React.FC<IResourceComponentsProps> = () => {
         flex: 1,
         headerName: "Payment Status",
         minWidth: 200,
+        renderCell: function render({ value }) {
+          return (
+            <Typography
+              fontSize={14}
+              fontWeight={"medium"}
+              color={getPaymentStatusColor(value)}
+            >
+              {value[0].toUpperCase() + value.slice(1)}
+            </Typography>
+          );
+        },
       },
       {
         field: "createdAt",
@@ -73,6 +97,17 @@ export const PaymentList: React.FC<IResourceComponentsProps> = () => {
         renderCell: function render({ value }) {
           return <DateField value={value} />;
         },
+      },
+      {
+        field: "actions",
+        headerName: "Actions",
+        sortable: false,
+        renderCell: function render({ row }) {
+          return <ShowButton hideText recordItemId={row._id} />;
+        },
+        align: "center",
+        headerAlign: "center",
+        minWidth: 80,
       },
     ],
     []

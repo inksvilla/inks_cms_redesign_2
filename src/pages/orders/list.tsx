@@ -5,10 +5,11 @@ import {
   // ShowButton,
   List,
   DateField,
+  ShowButton,
 } from "@refinedev/mui";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
-import { Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import { getOrderStatusColor, setColumnFilters } from "../../utils/table";
 import { FILTER_DEBOUNCE_MS } from "../../constants";
 
@@ -23,6 +24,9 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Customer",
         minWidth: 300,
         valueGetter: ({ row }) => row?.user?.name,
+        renderCell: function render({ value, row }) {
+          return <Link href={`/users/show/${row.user?._id}`}>{value}</Link>;
+        },
       },
       {
         field: "merchant",
@@ -30,6 +34,9 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Merchant",
         minWidth: 300,
         valueGetter: ({ row }) => row?.merchant?.name,
+        renderCell: function render({ value, row }) {
+          return <Link href={`/users/show/${row.merchant?._id}`}>{value}</Link>;
+        },
       },
       {
         field: "orderStatus",
@@ -93,22 +100,17 @@ export const OrderList: React.FC<IResourceComponentsProps> = () => {
           return <DateField value={value} />;
         },
       },
-      // {
-      //   field: "actions",
-      //   headerName: "Actions",
-      //   sortable: false,
-      //   renderCell: function render({ row }) {
-      //     return (
-      //       <>
-      //         <EditButton hideText recordItemId={row.id} />
-      //         {/* <ShowButton hideText recordItemId={row.id} /> */}
-      //       </>
-      //     );
-      //   },
-      //   align: "center",
-      //   headerAlign: "center",
-      //   minWidth: 80,
-      // },
+      {
+        field: "actions",
+        headerName: "Actions",
+        sortable: false,
+        renderCell: function render({ row }) {
+          return <ShowButton hideText recordItemId={row._id} />;
+        },
+        align: "center",
+        headerAlign: "center",
+        minWidth: 80,
+      },
     ],
     []
   );

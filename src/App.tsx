@@ -35,10 +35,9 @@ import { ServiceEdit } from "./pages/services/edit";
 import { ProductEdit } from "./pages/products/edit";
 import Dashboard from "./pages/dashboard/dashboard";
 import { ThemedLayoutV2 } from "./components/layout";
-import { OrderList } from "./pages/orders/list";
-import { AppointmentList } from "./pages/appointments/list";
-import { PaymentList } from "./pages/payments/list";
-import { AppointmentShow } from "./pages/appointments/show";
+import { OrderList, OrderShow } from "./pages/orders/";
+import { AppointmentList, AppointmentShow } from "./pages/appointments";
+import { PaymentList, PaymentShow } from "./pages/payments";
 
 function App() {
   return (
@@ -93,6 +92,7 @@ function App() {
               {
                 name: "order",
                 list: "/orders",
+                show: "/orders/show/:id",
                 meta: {
                   canDelete: false,
                 },
@@ -108,6 +108,7 @@ function App() {
               {
                 name: "payment",
                 list: "/payments",
+                show: "/payments/show/:id",
                 meta: {
                   canDelete: false,
                 },
@@ -180,6 +181,7 @@ function App() {
                 </Route>
                 <Route path="/orders">
                   <Route index element={<OrderList />} />
+                  <Route path="show/:id" element={<OrderShow />} />
                 </Route>
                 <Route path="/appointments">
                   <Route index element={<AppointmentList />} />
@@ -187,6 +189,7 @@ function App() {
                 </Route>
                 <Route path="/payments">
                   <Route index element={<PaymentList />} />
+                  <Route path="show/:id" element={<PaymentShow />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

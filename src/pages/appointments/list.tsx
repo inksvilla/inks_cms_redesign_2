@@ -4,7 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { IResourceComponentsProps } from "@refinedev/core";
 import { getAppointmentStatusColor, setColumnFilters } from "../../utils/table";
 import { FILTER_DEBOUNCE_MS } from "../../constants";
-import { Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 
 export const AppointmentList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({ resource: "appointment/admin" });
@@ -15,19 +15,21 @@ export const AppointmentList: React.FC<IResourceComponentsProps> = () => {
         field: "user",
         flex: 1,
         headerName: "Customer",
-        valueGetter: ({ row }) => {
-          const value = row?.user?.name;
-          return value;
-        },
         minWidth: 300,
+        valueGetter: ({ row }) => row?.user?.name,
+        renderCell: function render({ value, row }) {
+          return <Link href={`/users/show/${row.user?._id}`}>{value}</Link>;
+        },
       },
       {
         field: "merchant",
         flex: 1,
         headerName: "Merchant",
-        valueGetter: ({ row }) => {
-          const value = row?.service?.user?.name;
-          return value;
+        valueGetter: ({ row }) => row?.service?.user?.name,
+        renderCell: function render({ value, row }) {
+          return (
+            <Link href={`/users/show/${row.service?.user?.id}`}>{value}</Link>
+          );
         },
         minWidth: 300,
       },
@@ -37,8 +39,12 @@ export const AppointmentList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Service",
         valueGetter: ({ row }) => {
           const value = row?.service?.name;
-
           return value;
+        },
+        renderCell: function render({ value, row }) {
+          return (
+            <Link href={`/services/show/${row.service?._id}`}>{value}</Link>
+          );
         },
         minWidth: 300,
       },

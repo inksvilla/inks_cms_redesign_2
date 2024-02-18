@@ -38,4 +38,10 @@ export const OrderStatus = {
   Cancelled: "cancelled",
 } as const;
 
+export const PaymentStatus = {
+  Initiated: "initiated",
+  Success: "success",
+  Failed: "failed",
+};
+
 export const FILTER_DEBOUNCE_MS = 700;

@@ -2,11 +2,12 @@ import { useShow, IResourceComponentsProps } from "@refinedev/core";
 import {
   Show,
   TextFieldComponent as TextField,
+  NumberField,
   DateField,
 } from "@refinedev/mui";
-import { Typography, Stack, Link } from "@mui/material";
+import { Typography, Stack, Link, Box } from "@mui/material";
 
-export const AppointmentShow: React.FC<IResourceComponentsProps> = () => {
+export const OrderShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow();
   const { data, isLoading } = queryResult;
 
@@ -25,57 +26,47 @@ export const AppointmentShow: React.FC<IResourceComponentsProps> = () => {
         <Typography variant="body1" fontWeight="bold">
           Merchant
         </Typography>
-        <Link href={`/users/show/${record?.service?.user?.id}`}>
-          <TextField value={record?.service?.user?.name} mb={2} />
+        <Link href={`/users/show/${record?.merchant?._id}`}>
+          <TextField value={record?.merchant?.name} mb={2} />
         </Link>
 
         <Typography variant="body1" fontWeight="bold">
-          Service
+          Products
         </Typography>
-        <TextField value={record?.service?.name} mb={2} />
+        <Box mb={2}>
+          {record?.products?.map((item: any) => {
+            return (
+              <Link href={`/products/show/${item.product._id}`}>
+                <TextField value={item.product.name} />
+              </Link>
+            );
+          })}
+        </Box>
 
         <Typography variant="body1" fontWeight="bold">
-          Booked Date
+          Full Name
         </Typography>
-        <DateField value={record?.date} mb={2} />
+        <TextField value={record?.fullName} mb={2} />
 
         <Typography variant="body1" fontWeight="bold">
-          Customer Booking Name
+          Phone Number
         </Typography>
-        <TextField value={record?.customerInfo?.name} mb={2} />
+        <NumberField value={record?.phoneNumber ?? ""} mb={2} />
 
         <Typography variant="body1" fontWeight="bold">
-          Customer PhoneNumber
+          Address
         </Typography>
-        <TextField value={record?.customerInfo?.phoneNumber} mb={2} />
+        <TextField value={record?.address} mb={2} />
 
         <Typography variant="body1" fontWeight="bold">
-          Customer Expectation
+          Nearest Landmark
         </Typography>
-        <TextField value={record?.customerInfo?.expectation} mb={2} />
+        <TextField value={record?.nearestLandmark} mb={2} />
 
         <Typography variant="body1" fontWeight="bold">
-          Payment method
+          Order Status
         </Typography>
-        <TextField
-          textTransform={"capitalize"}
-          value={record?.payment?.paymentMethod}
-          mb={2}
-        />
-
-        <Typography variant="body1" fontWeight="bold">
-          Payment Status
-        </Typography>
-        <TextField
-          textTransform={"capitalize"}
-          value={record?.payment?.paymentStatus}
-          mb={2}
-        />
-
-        <Typography variant="body1" fontWeight="bold">
-          Status
-        </Typography>
-        <TextField textTransform={"capitalize"} value={record?.status} mb={2} />
+        <TextField value={record?.orderStatus} mb={2} />
 
         <Typography variant="body1" fontWeight="bold">
           Created At
@@ -86,6 +77,11 @@ export const AppointmentShow: React.FC<IResourceComponentsProps> = () => {
           Updated At
         </Typography>
         <DateField value={record?.updatedAt} mb={2} />
+
+        <Typography variant="body1" fontWeight="bold">
+          Total Price
+        </Typography>
+        <NumberField value={record?.totalPrice ?? ""} mb={2} />
       </Stack>
     </Show>
   );
