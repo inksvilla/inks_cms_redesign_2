@@ -12,6 +12,14 @@ export const ServiceStatus = {
   Inactive: "inactive",
 } as const;
 
+export const AppointmentStatus = {
+  Unpaid: "unpaid",
+  Paid: "paid",
+  Confirmed: "confirmed",
+  Completed: "completed",
+  Cancelled: "cancelled",
+} as const;
+
 export const ProductStatus = {
   Active: "active",
   Inactive: "inactive",
@@ -21,6 +29,13 @@ export const Currencies = {
   NPR: "NPR",
   USD: "USD",
   INR: "INR",
+} as const;
+
+export const OrderStatus = {
+  Unpaid: "unpaid",
+  Paid: "paid",
+  Completed: "completed",
+  Cancelled: "cancelled",
 } as const;
 
 export const FILTER_DEBOUNCE_MS = 700;

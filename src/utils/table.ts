@@ -3,7 +3,13 @@ import {
   getGridStringOperators,
   GridColDef,
 } from "@mui/x-data-grid";
-import { ProductStatus, ServiceStatus, UserStatus } from "../constants";
+import {
+  AppointmentStatus,
+  OrderStatus,
+  ProductStatus,
+  ServiceStatus,
+  UserStatus,
+} from "../constants";
 
 export const setColumnFilters = (columns: GridColDef<any, any, any>[]) => {
   const newColumns = columns.map((column) => {
@@ -61,4 +67,32 @@ export const getServiceStatusColor = (status: string) => {
     return "text.secondary";
   }
   return "text.primary";
+};
+
+export const getAppointmentStatusColor = (status: string) => {
+  switch (status) {
+    case AppointmentStatus.Paid:
+      return "success.main";
+    case AppointmentStatus.Completed:
+      return "success.main";
+    case AppointmentStatus.Confirmed:
+      return "success.main";
+    case AppointmentStatus.Unpaid:
+      return "warning.main";
+    case AppointmentStatus.Cancelled:
+      return "errors.main";
+  }
+};
+
+export const getOrderStatusColor = (status: string) => {
+  switch (status) {
+    case OrderStatus.Paid:
+      return "success.main";
+    case OrderStatus.Completed:
+      return "success.main";
+    case OrderStatus.Unpaid:
+      return "warning.main";
+    case OrderStatus.Cancelled:
+      return "errors.main";
+  }
 };

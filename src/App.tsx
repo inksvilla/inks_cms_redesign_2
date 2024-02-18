@@ -35,6 +35,10 @@ import { ServiceEdit } from "./pages/services/edit";
 import { ProductEdit } from "./pages/products/edit";
 import Dashboard from "./pages/dashboard/dashboard";
 import { ThemedLayoutV2 } from "./components/layout";
+import { OrderList } from "./pages/orders/list";
+import { AppointmentList } from "./pages/appointments/list";
+import { PaymentList } from "./pages/payments/list";
+import { AppointmentShow } from "./pages/appointments/show";
 
 function App() {
   return (
@@ -82,6 +86,28 @@ function App() {
                 list: "/services",
                 show: "/services/show/:id",
                 edit: "/services/edit/:id",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "order",
+                list: "/orders",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "appointment",
+                list: "/appointments",
+                show: "/appointments/show/:id",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "payment",
+                list: "/payments",
                 meta: {
                   canDelete: false,
                 },
@@ -151,6 +177,16 @@ function App() {
                   <Route index element={<ServiceList />} />
                   <Route path="edit/:id" element={<ServiceEdit />} />
                   <Route path="show/:id" element={<ServiceShow />} />
+                </Route>
+                <Route path="/orders">
+                  <Route index element={<OrderList />} />
+                </Route>
+                <Route path="/appointments">
+                  <Route index element={<AppointmentList />} />
+                  <Route path="show/:id" element={<AppointmentShow />} />
+                </Route>
+                <Route path="/payments">
+                  <Route index element={<PaymentList />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
