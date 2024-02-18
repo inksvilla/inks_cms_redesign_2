@@ -77,7 +77,7 @@ export const getAppointmentStatusColor = (status: string) => {
     case AppointmentStatus.Completed:
       return "success.main";
     case AppointmentStatus.Confirmed:
-      return "success.secondary";
+      return "text.secondary";
     case AppointmentStatus.Unpaid:
       return "warning.main";
     case AppointmentStatus.Cancelled:
@@ -86,10 +86,9 @@ export const getAppointmentStatusColor = (status: string) => {
 };
 
 export const getPaymentStatusColor = (status: string) => {
-  console.log(status);
   switch (status) {
     case PaymentStatus.Initiated:
-      return "success.secondary";
+      return "text.secondary";
     case PaymentStatus.Success:
       return "success.main";
     case PaymentStatus.Failed:

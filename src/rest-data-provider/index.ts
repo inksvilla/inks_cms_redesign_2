@@ -16,7 +16,6 @@ export const dataProvider = (
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
     const url = `${apiUrl}/${resource}`;
 
-    console.log(pagination);
     const { current = 1, pageSize = 10, mode = "server" } = pagination ?? {};
 
     const { headers: headersFromMeta, method } = meta ?? {};
@@ -47,11 +46,11 @@ export const dataProvider = (
       }
     );
 
-    const total = data.metadata.totalItems;
+    const total = data?.metadata?.totalItems;
 
     return {
       data: data?.data,
-      total: total || data.length,
+      total: total || data?.length,
     };
   },
 

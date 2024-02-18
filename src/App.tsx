@@ -38,6 +38,7 @@ import { ThemedLayoutV2 } from "./components/layout";
 import { OrderList, OrderShow } from "./pages/orders/";
 import { AppointmentList, AppointmentShow } from "./pages/appointments";
 import { PaymentList, PaymentShow } from "./pages/payments";
+import { PaymentReportCreate, PaymentReportList } from "./pages/paymentReport";
 
 function App() {
   return (
@@ -109,6 +110,14 @@ function App() {
                 name: "payment",
                 list: "/payments",
                 show: "/payments/show/:id",
+                meta: {
+                  canDelete: false,
+                },
+              },
+              {
+                name: "paymentReport",
+                list: "/paymentReports",
+                create: "/paymentReports/create",
                 meta: {
                   canDelete: false,
                 },
@@ -190,6 +199,10 @@ function App() {
                 <Route path="/payments">
                   <Route index element={<PaymentList />} />
                   <Route path="show/:id" element={<PaymentShow />} />
+                </Route>
+                <Route path="/paymentReports">
+                  <Route index element={<PaymentReportList />} />
+                  <Route path="create" element={<PaymentReportCreate />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

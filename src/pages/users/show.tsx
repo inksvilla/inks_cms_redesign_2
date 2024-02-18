@@ -13,7 +13,6 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   const { data, isLoading } = queryResult;
 
   const record = data?.data;
-  console.log(record);
 
   return (
     <Show isLoading={isLoading}>
