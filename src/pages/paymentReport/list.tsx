@@ -48,6 +48,12 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
         minWidth: 200,
       },
       {
+        field: "paymentReference",
+        flex: 1,
+        headerName: "Payment Reference",
+        minWidth: 200,
+      },
+      {
         field: "createdAt",
         flex: 1,
         headerName: "Created At",

@@ -20,6 +20,8 @@ export const PaymentReportCreate: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
+  // console.log(merchantAutocompleteProps);
+
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Box
@@ -38,11 +40,20 @@ export const PaymentReportCreate: React.FC<IResourceComponentsProps> = () => {
               {...merchantAutocompleteProps}
               {...field}
               onChange={(_, value) => {
-                field.onChange(value);
+                field.onChange(value._id);
               }}
-              getOptionLabel={(item) => item?.name}
+              getOptionLabel={(selected) => {
+                const result =
+                  merchantAutocompleteProps.options.find(
+                    (option) =>
+                      option?._id ===
+                      (typeof selected === "string" ? selected : selected._id)
+                  )?.name || "";
+                return result;
+              }}
+              // getOptionLabel={(selected) => }
               isOptionEqualToValue={(option, value) =>
-                option?._id?.toString() === value?._id?.toString()
+                option?._id?.toString() === value
               }
               renderInput={(params) => (
                 <TextField
@@ -83,6 +94,17 @@ export const PaymentReportCreate: React.FC<IResourceComponentsProps> = () => {
           type="number"
           label="Credit"
           name="credit"
+        />
+        <TextField
+          {...register("paymentReference")}
+          error={!!(errors as any)?.paymentReference}
+          helperText={(errors as any)?.paymentReference?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label="Payment Reference"
+          name="paymentReference"
         />
       </Box>
     </Create>
