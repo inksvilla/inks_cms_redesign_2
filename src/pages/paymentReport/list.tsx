@@ -5,11 +5,14 @@ import { IResourceComponentsProps } from "@refinedev/core";
 import { Link } from "@mui/material";
 import { setColumnFilters } from "../../utils/table";
 import { FILTER_DEBOUNCE_MS } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
   const { dataGridProps } = useDataGrid({
     resource: "paymentReport/merchant",
   });
+
+  const navigate = useNavigate();
 
   let columns = React.useMemo<GridColDef[]>(
     () => [
@@ -17,6 +20,7 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
         field: "merchant",
         flex: 1,
         headerName: "Merchant",
+        sortable: false,
         minWidth: 300,
         valueGetter: ({ row }) => {
           const value = row?.merchant?.name;
@@ -29,6 +33,8 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "debit",
         flex: 1,
+        filterable: false,
+        sortable: false,
         headerName: "Debit",
         type: "number",
         valueGetter: ({ row }) => row?.debit || "-",
@@ -37,6 +43,8 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "credit",
         flex: 1,
+        filterable: false,
+        sortable: false,
         headerName: "Credit",
         type: "number",
         valueGetter: ({ row }) => row?.credit || "-",
@@ -45,6 +53,8 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "balance",
         flex: 1,
+        filterable: false,
+        sortable: false,
         headerName: "Balance",
         type: "number",
         minWidth: 200,
@@ -52,12 +62,16 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "paymentReference",
         flex: 1,
+        filterable: false,
+        sortable: false,
         headerName: "Payment Reference",
         minWidth: 200,
       },
       {
         field: "createdAt",
         flex: 1,
+        filterable: false,
+        sortable: false,
         headerName: "Created At",
         minWidth: 250,
         renderCell: function render({ value }) {
@@ -67,6 +81,8 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
       {
         field: "updatedAt",
         flex: 1,
+        filterable: false,
+        sortable: false,
         headerName: "Updated At",
         minWidth: 250,
         renderCell: function render({ value }) {
@@ -78,7 +94,17 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Actions",
         sortable: false,
         renderCell: function render({ row }) {
-          return <ShowButton hideText recordItemId={row?.merchant?._id} />;
+          return (
+            <ShowButton
+              hideText
+              onClick={() => {
+                navigate({
+                  pathname: `/paymentReports/show/${row?.merchant?._id}`,
+                  search: `?merchantName=${row?.merchant?.name}`,
+                });
+              }}
+            />
+          );
         },
         align: "center",
         headerAlign: "center",
@@ -91,7 +117,7 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
   columns = setColumnFilters(columns);
 
   return (
-    <List canCreate>
+    <List canCreate={false}>
       <DataGrid
         {...dataGridProps}
         getRowId={(row) => row?._id}

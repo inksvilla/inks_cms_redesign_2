@@ -1,26 +1,22 @@
-import { Create, useAutocomplete } from "@refinedev/mui";
-import { Box, Autocomplete, TextField } from "@mui/material";
+import { Create } from "@refinedev/mui";
+import { Box, TextField } from "@mui/material";
 import { useForm } from "@refinedev/react-hook-form";
 import { IResourceComponentsProps } from "@refinedev/core";
-import { Controller } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 
 export const PaymentReportCreate: React.FC<IResourceComponentsProps> = () => {
   const {
     saveButtonProps,
     refineCore: { formLoading },
     register,
-    control,
     formState: { errors },
   } = useForm();
 
-  const { autocompleteProps: merchantAutocompleteProps } = useAutocomplete({
-    resource: "merchant/options",
-    onSearch: (query) => {
-      return [{ field: "name", operator: "contains", value: query }];
-    },
-  });
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
-  // console.log(merchantAutocompleteProps);
+  const merchantId = searchParams.get("merchantId");
+  const merchantName = searchParams.get("merchantName");
 
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -29,46 +25,19 @@ export const PaymentReportCreate: React.FC<IResourceComponentsProps> = () => {
         sx={{ display: "flex", flexDirection: "column" }}
         autoComplete="off"
       >
-        <Controller
-          control={control}
-          name="merchant"
-          rules={{ required: "This field is required" }}
-          // eslint-disable-next-line
-          defaultValue={null as any}
-          render={({ field }) => (
-            <Autocomplete
-              {...merchantAutocompleteProps}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value._id);
-              }}
-              getOptionLabel={(selected) => {
-                const result =
-                  merchantAutocompleteProps.options.find(
-                    (option) =>
-                      option?._id ===
-                      (typeof selected === "string" ? selected : selected._id)
-                  )?.name || "";
-                return result;
-              }}
-              // getOptionLabel={(selected) => }
-              isOptionEqualToValue={(option, value) =>
-                option?._id?.toString() === value
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Merchant"
-                  margin="normal"
-                  variant="outlined"
-                  error={!!(errors as any)?.merchant}
-                  helperText={(errors as any)?.merchant?.message}
-                  required
-                />
-              )}
-            />
-          )}
+        {merchantId && (
+          <input {...register("merchant")} type="hidden" value={merchantId} />
+        )}
+
+        <TextField
+          disabled
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          value={merchantName}
+          label="Merchant"
         />
+
         <TextField
           {...register("debit", {
             valueAsNumber: true,
@@ -82,19 +51,18 @@ export const PaymentReportCreate: React.FC<IResourceComponentsProps> = () => {
           label="Debit"
           name="debit"
         />
+
         <TextField
-          {...register("credit", {
-            valueAsNumber: true,
-          })}
-          error={!!(errors as any)?.credit}
-          helperText={(errors as any)?.credit?.message}
+          disabled
           margin="normal"
           fullWidth
           InputLabelProps={{ shrink: true }}
           type="number"
+          value={0}
           label="Credit"
           name="credit"
         />
+
         <TextField
           {...register("paymentReference")}
           error={!!(errors as any)?.paymentReference}
