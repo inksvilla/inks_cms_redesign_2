@@ -5,10 +5,15 @@ import { IResourceComponentsProps } from "@refinedev/core";
 import { Link } from "@mui/material";
 import { setColumnFilters } from "../../utils/table";
 import { FILTER_DEBOUNCE_MS } from "../../constants";
+import { useParams } from "react-router-dom";
 
-export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
+export const PaymentReportShow: React.FC<IResourceComponentsProps> = () => {
+  const { id } = useParams();
+
   const { dataGridProps } = useDataGrid({
-    resource: "paymentReport/merchant",
+    filters: {
+      permanent: [{ field: "merchant", operator: "eq", value: id }],
+    },
   });
 
   let columns = React.useMemo<GridColDef[]>(
@@ -78,7 +83,11 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
         headerName: "Actions",
         sortable: false,
         renderCell: function render({ row }) {
-          return <ShowButton hideText recordItemId={row?.merchant?._id} />;
+          return (
+            <>
+              <ShowButton hideText recordItemId={row.merchant._id} />
+            </>
+          );
         },
         align: "center",
         headerAlign: "center",
@@ -91,7 +100,7 @@ export const PaymentReportList: React.FC<IResourceComponentsProps> = () => {
   columns = setColumnFilters(columns);
 
   return (
-    <List canCreate>
+    <List title="Payment Report History" canCreate>
       <DataGrid
         {...dataGridProps}
         getRowId={(row) => row?._id}
